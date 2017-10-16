@@ -39,53 +39,42 @@ class Node {
 			var grandfather = this.parent.parent;
 			var leftChild = this.left;
 			var rightChild = this.right;
-			var temporaryNode;
-
-			if (this === father.left){
-				this.left = father;
-				
-			} else if (this === father.right){
-				this.right = father;
-				 
-			}
-			father.parent = this;
-
 			if (grandfather) {
-				if (father === grandfather.left) {
+				if (this.parent === grandfather.left) {
 					grandfather.left = this;
 
-				}else if (father === grandfather.right) {
+				} else if (this.parent === grandfather.right) {
 					grandfather.right = this;
 				}
 			}
-			this.parent = grandfather;
-
+			if (this === father.left){
+				this.left = father;
+				this.right = this.parent.right
+				
+			} else if (this === father.right){
+				this.right = father;
+				this.left = this.parent.left;
+				 
+			}
 			if (father.left && father.right) {
 				if (this === father.left) {
-					father.right.parent = this;
-					this.left = father;
-					this.right = father.right;
+					this.right.parent = this;
+					
 				} else if (this === father.right) {
-					father.left.parent = this;
-					this.right = father;
-					this.left = father.right;
+					this.left.parent = this;
 				} 
 			}
-
-			if (leftChild && rightChild) {
+			this.parent = grandfather;			
+			father.parent = this;
+			father.left = leftChild;
+			father.right = rightChild
+			if (leftChild) {
 				leftChild.parent = father;
+			} 
+			if (rightChild) {
 				rightChild.parent = father;
-				father.left = leftChild;
-				father.right = rightChild;
-			} else if (leftChild) {
-				leftChild.parent = father;
-				father.left = leftChild; 
-			} else if (rightChild) {
-				rightChild.parent = father;
-				father.right = rightChild;
-			} 		
+			} 	
 		}
-
 	}
 }  
 
